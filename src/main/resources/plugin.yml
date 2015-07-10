@@ -1,0 +1,12 @@
+name: Exchequer
+version: 1.0.0
+description: Handles periodic player payments
+main: io.github.ratismal.exchequer.Exchequer
+author: Ratismal
+depend: [Vault]
+softdepend: [mcMMO, Votifier]
+commands:
+  exchequer:
+    aliases: [exc, ex]
+    description: See all Exchequer commands
+    usage: /exchequer
