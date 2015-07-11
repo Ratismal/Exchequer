@@ -4,3 +4,5 @@
 #
 #######################################
 
+#Whether the plugin should send anonymous plugin statistics to mcstats.org
+metrics: true

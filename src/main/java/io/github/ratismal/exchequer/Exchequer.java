@@ -24,11 +24,20 @@ public class Exchequer extends JavaPlugin {
 	public FileConfiguration blockConfig = null;
 	public File tools = null;
 	public FileConfiguration toolConfig = null;
+	public File mobs = null;
+	public FileConfiguration mobConfig = null;
 
 	public void onEnable() {
 		getConfig().options().copyDefaults(true);
 		saveDefaultConfig();
 		this.pluginconfig = new Config(this,getConfig());
+
+		this.saveBlocks();
+		this.saveMobs();
+		this.saveTools();
+		getBlocks();
+		getMobs();
+		getTools();
 
 		/* enable metrics */
 		if (pluginconfig.isMetrics()) {
@@ -111,6 +120,38 @@ public class Exchequer extends JavaPlugin {
 			getTools().save(tools);
 		} catch (IOException ex) {
 			getLogger().log(Level.SEVERE, "Could not save config to " + tools, ex);
+		}
+	}
+
+	public void reloadMobs() {
+		if (mobs == null) {
+			mobs = new File(getDataFolder(), "mobs.yml");
+		}
+		mobConfig = YamlConfiguration.loadConfiguration(mobs);
+
+		// Look for defaults in the jar
+		Reader defConfigStream = new InputStreamReader(this.getResource("mobs.yml"));
+		if (defConfigStream != null) {
+			YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+			mobConfig.setDefaults(defConfig);
+		}
+	}
+
+	public FileConfiguration getMobs() {
+		if (mobConfig == null) {
+			reloadMobs();
+		}
+		return mobConfig;
+	}
+
+	public void saveMobs() {
+		if (mobConfig == null || mobs == null) {
+			return;
+		}
+		try {
+			getTools().save(mobs);
+		} catch (IOException ex) {
+			getLogger().log(Level.SEVERE, "Could not save config to " + mobs, ex);
 		}
 	}
 
